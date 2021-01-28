@@ -1,0 +1,59 @@
+create database ManageStudents;
+use ManageStudents;
+create table Address(id int, address varchar(250));
+create table Classes(id_classes varchar(10), name nvarchar(250), language varchar(250),description varchar(250));
+create table Students(id_students varchar(20), fullname nvarchar(250),id_address int,phone int,id_class varchar(10));
+create table Course(id_Course int,name nvarchar(250),description nvarchar(250));
+create table Point(id_point int, id_Course int,id_student varchar(20), point int);
+insert into Address values (01,'Hanoi'),(02,'Hai Phong'),(03,'Ho Chi Minh'),(04,'Quang Ninh'),(05,'Thai Binh');
+insert into Classes values('01','CB_01','Vietnamese',''),('02','XH_05','English',''),('03','TN_03','English',''),('04','CB_02','Vietnamese','w'),('05','TN_08','English','');
+insert into Students values ('01','Ngo Minh Hieu',1,0981233132,'01'),
+                            ('02','Dam Hoang Viet',1, 0932311977,'05'),
+                            ('03','Do Thi Diem Huong',3, 0977049784,'03'),
+                            ('04','Hoang Minh Thu',5,0932588999,'05'),
+                            ('05','Ngo Truong Nam',2,0932311797,'04'),
+                            ('06','Nguyen Minh Anh',3,0985673452,'02'),
+                            ('07','Nguyen Phu Trong',4,0903407864,'05'),
+                            ('08','Nguyen Thanh Hoang',1,0907798765,'03'),
+                            ('09','Vu Trong Phung',2,0976534567,'02'),
+                            ('10','Vu Minh Thuy',4,0977891234,'01');
+insert into Course values (1,'finance',''),(2,'literary',''),(3,'math',''),(4,'history',''),(5,'art','');
+insert into Point values (1,2,'10',8),
+                         (2,4,'05',5),
+                         (3,3,'06',7),
+                         (4,5,'07',9),
+                         (5,5,'02',10),
+                         (6,4,'01',9),
+                         (7,2,'03',3),
+                         (8,1,'04',5),
+                         (9,1,'05',9),
+                         (10,2,'06',7),
+                         (11,2,'08',8),
+                         (12,3,'09',3),
+                         (13,4,'06',7),
+                         (14,5,'03',9),
+                         (15,3,'05',9);
+alter table Address add primary key (id);
+alter table Students add foreign key (id_address) references Address (id);
+alter table Classes add primary key (id_classes);
+alter table Students add foreign key (id_class) references Classes(id_classes);
+alter table Students add primary key (id_students);
+alter table Course add primary key (id_Course);
+alter table Point add foreign key (id_student) references Students(id_students);
+alter table Point add foreign key (id_Course) references Course(id_Course);
+
+select id_classes,count(id_classes) from Students join Classes c on c.id_classes = Students.id_class group by id_classes;
+select id_address,count(id_address) from Students join Address a on a.id = Students.id_address group by id_address;
+select avg(point) from Point;
+select C.id_Course, avg(point) from Point join Course C on Point.id_Course = C.id_Course group by C.id_Course;
+select MIN(point) from Point;
+select C.id_Course, min(point) from Point join Course C on Point.id_Course = C.id_Course group by C.id_Course;
+select max(point) from Point;
+select C.id_Course,max(point) from Point join Course C on Point.id_Course = C.id_Course group by C.id_Course;
+
+
+
+
+
+
+
